@@ -62,3 +62,8 @@ Run the main script:
 - Ensure that you have the necessary permissions to read the input PDF and write to the output location.
 - The accuracy of sensitive information detection depends on the OCR quality and the analysis algorithm.
 - Large PDF files may take longer to process.
+
+## Developers
+
+- Gopal Somasundaram(https://github.com/gopalsomasundaram)
+- Dhruv Desai(https://github.com/dhruvdesai09)
