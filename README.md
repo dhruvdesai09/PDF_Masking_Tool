@@ -23,7 +23,7 @@ The PDF Masking Tool is a Python application that allows users to automatically 
 ## Installation
 
 1. Clone this repository
-2. Install the required Python packages: pip install -r requirements.txt
+2. Install the required Python packages: `pip install -r requirements.txt`
 3. Install Tesseract OCR:
 - For Windows: Download and install from [GitHub Tesseract-OCR](https://github.com/UB-Mannheim/tesseract/wiki)
 - For macOS: `brew install tesseract`
