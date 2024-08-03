@@ -31,6 +31,10 @@ def run_gui(process_function):
     def mask_pdf():
         pdf_path = pdf_path_var.get()
         output_pdf_path = output_path_var.get()
+        selected_language_name = language_var.get()
+
+        # Convert the selected language name to its corresponding code
+        selected_language_code = next(lang[1] for lang in languages if lang[0] == selected_language_name)
 
         if not pdf_path or not output_pdf_path:
             messagebox.showerror("Error", "Please select both input and output files.")
@@ -44,7 +48,7 @@ def run_gui(process_function):
                 progress_bar['value'] = value
                 root.update_idletasks()
 
-            process_function(pdf_path, output_pdf_path, update_progress)
+            process_function(pdf_path, output_pdf_path, update_progress, selected_language_code)
 
             messagebox.showinfo("Success", f"File saved as {output_pdf_path}")
             root.quit()
@@ -56,7 +60,7 @@ def run_gui(process_function):
     # Initialize the main window
     root = tk.Tk()
     root.title("PDF Masking Tool")
-    root.geometry("600x300")
+    root.geometry("600x350")
     root.configure(bg='#f0f0f0')
 
     style = ttk.Style()
@@ -70,6 +74,7 @@ def run_gui(process_function):
     # Variables
     pdf_path_var = tk.StringVar()
     output_path_var = tk.StringVar()
+    language_var = tk.StringVar(value="English")  # Default to English
 
     # Input PDF selection
     ttk.Label(main_frame, text="Input PDF:").grid(column=0, row=0, sticky=tk.W, pady=5)
@@ -82,17 +87,37 @@ def run_gui(process_function):
     ttk.Button(main_frame, text="Browse", command=select_destination).grid(column=1, row=3, sticky=tk.W, padx=(5, 0),
                                                                            pady=5)
 
+    # Language selection
+    ttk.Label(main_frame, text="PDF Language:").grid(column=0, row=4, sticky=tk.W, pady=5)
+    languages = [
+        ("English", "eng"),
+        ("Spanish", "spa"),
+        ("French", "fra"),
+        ("German", "deu"),
+        ("Italian", "ita"),
+        ("Hindi", "hin"),
+        ("Korean", "kor"),
+        ("Russian", "rus"),
+        ("Chinese (Simplified)", "chi_sim"),
+        ("Malay", "msa"),
+        ("Japanese", "jpn")
+    ]
+    language_dropdown = ttk.Combobox(main_frame, textvariable=language_var,
+                                     values=[lang[0] for lang in languages], state="readonly")
+    language_dropdown.grid(column=0, row=5, sticky=(tk.W, tk.E), pady=5)
+    language_dropdown.current(0)  # Set default to English
+
     # Progress Bar
     progress_bar = ttk.Progressbar(main_frame, orient=tk.HORIZONTAL, length=300, mode='determinate')
-    progress_bar.grid(column=0, row=4, columnspan=2, sticky=(tk.W, tk.E), pady=20)
+    progress_bar.grid(column=0, row=6, columnspan=2, sticky=(tk.W, tk.E), pady=20)
 
     # Mask PDF Button
     mask_button = ttk.Button(main_frame, text="Mask PDF", command=mask_pdf)
-    mask_button.grid(column=0, row=5, columnspan=2, pady=10)
+    mask_button.grid(column=0, row=7, columnspan=2, pady=10)
 
     # Configure grid
     main_frame.columnconfigure(0, weight=1)
-    for i in range(6):
+    for i in range(8):
         main_frame.rowconfigure(i, weight=1)
 
     # Start the GUI event loop

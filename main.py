@@ -4,8 +4,7 @@ from gemini_api import mask_text
 from masking import mask_text_in_pdf
 from tkin import run_gui
 
-
-def process_pdf(pdf_path, output_pdf_path, progress_callback=None):
+def process_pdf(pdf_path, output_pdf_path, progress_callback=None, language='eng'):
     dpi = 300
     ocr_text = ""
 
@@ -20,7 +19,7 @@ def process_pdf(pdf_path, output_pdf_path, progress_callback=None):
 
     for img in images:
         # Perform OCR on each image
-        ocr_text += ocr_image(img)  # Now passing the PIL Image object directly
+        ocr_text += ocr_image(img, language)
         current_step += 1
         if progress_callback:
             progress_callback(current_step / total_steps * 100)
@@ -37,7 +36,6 @@ def process_pdf(pdf_path, output_pdf_path, progress_callback=None):
 
     if progress_callback:
         progress_callback(100)  # Task complete
-
 
 if __name__ == "__main__":
     run_gui(process_pdf)
